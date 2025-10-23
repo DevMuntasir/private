@@ -1,0 +1,15 @@
+services:
+  admin_frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    container_name: chutneyads_admin_frontend_prod
+    restart: unless-stopped
+    ports:
+      - "5002:5002"  # Map host 5002 → container 5002
+    networks:
+      - chutneyads_network
+
+networks:
+  chutneyads_network:
+    external: true

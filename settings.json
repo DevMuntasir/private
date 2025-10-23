@@ -1,0 +1,14 @@
+{
+  "tailwindCSS.includeLanguages": {
+    "vue": "html",
+    "javascript": "javascript",
+    "typescript": "typescript"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["class[:]?\\s*?=\\s*?[\"'`]([^\"'`]*).*?[\"'`]", 1],
+    [":[a-z]+\\s*=\\s*[\"'`]([^\"'`]*).*?[\"'`]", 1] // For v-bind:class
+  ],
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}

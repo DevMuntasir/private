@@ -1,0 +1,236 @@
+
+.flame-icon {
+  width: 40px; /* increased container size */
+  height: 80px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flame-container {
+  position: relative;
+  width: 36px; /* wider grid */
+  height: 60px;
+}
+
+.flame-block {
+  position: absolute;
+  width: 12px;  /* bigger block size */
+  height: 12px;
+  animation: flicker 1.5s infinite ease-in-out;
+}
+
+/* Colors */
+.flame-red {
+  background-color: #D81F26;
+}
+
+.flame-orange {
+  background-color: #E08C23;
+}
+
+.flame-yellow {
+  background-color: #E6B71D;
+}
+
+/* Positions */
+.bottom-center {
+  bottom: 0;
+  left: 12px;
+  animation-delay: 0s;
+}
+
+.bottom-left {
+  bottom: 12px;
+  left: 0;
+  animation-delay: 0.1s;
+}
+
+.bottom-center-2 {
+  bottom: 12px;
+  left: 12px;
+  animation-delay: 0.2s;
+}
+
+.bottom-right {
+  bottom: 12px;
+  left: 24px;
+  animation-delay: 0.3s;
+}
+
+.third-left {
+  bottom: 24px;
+  left: 0;
+  animation-delay: 0.4s;
+}
+
+.third-center {
+  bottom: 24px;
+  left: 12px;
+  animation-delay: 0.5s;
+}
+
+.third-right {
+  bottom: 24px;
+  left: 24px;
+  animation-delay: 0.6s;
+}
+
+.fourth-center {
+  bottom: 36px;
+  left: 12px;
+  animation-delay: 0.7s;
+}
+
+.fourth-right {
+  bottom: 36px;
+  left: 24px;
+  animation-delay: 0.8s;
+}
+
+.top-right {
+  bottom: 48px;
+  left: 24px;
+  animation-delay: 0.9s;
+}
+
+/* Flicker animation */
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  25% {
+    opacity: 0.8;
+    transform: scale(0.95);
+    filter: brightness(1.1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  75% {
+    opacity: 0.7;
+    transform: scale(0.1);
+    filter: brightness(1);
+  }
+}
+
+/* Glow effect */
+.flame-container::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  
+  animation: glow 2s infinite ease-in-out alternate;
+  pointer-events: none;
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+
+      .preloader-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        backdrop-filter: blur(2px);
+      }
+
+      .preloader-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 32px 48px;
+        border-radius: 16px;
+        background: #ffffff;
+        display: flex;
+      }
+      .preloader-card img {
+        margin-top: 10px;
+      }
+      .preloader-logo {
+        height: 64px;
+        width: auto;
+      }
+
+      .preloader-spinner {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 3px solid rgba(227, 83, 36, 0.25);
+        border-top-color: #e35324;
+        animation: spin 0.9s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .preloader-fade-enter-active,
+      .preloader-fade-leave-active {
+        transition: opacity 0.25s ease;
+      }
+
+      .preloader-fade-enter-from,
+      .preloader-fade-leave-to {
+        opacity: 0;
+      }
+
+      /* HTML: <div class="loader"></div> */
+      .loader {
+        width: 60px;
+        display: flex;
+        align-items: flex-start;
+        aspect-ratio: 1;
+      }
+      .loader:before,
+      .loader:after {
+        content: "";
+        flex: 1;
+        aspect-ratio: 1;
+        --g: conic-gradient(from -90deg at 10px 10px, #000 90deg, #0000 0);
+        background: var(--g), var(--g), var(--g);
+        filter: drop-shadow(30px 30px 0 #000);
+        animation: l20 1s infinite;
+      }
+      .loader:after {
+        transform: scaleX(-1);
+      }
+      @keyframes l20 {
+        0% {
+          background-position: 0 0, 10px 10px, 20px 20px;
+        }
+        33% {
+          background-position: 10px 10px;
+        }
+        66% {
+          background-position: 0 20px, 10px 10px, 20px 0;
+        }
+        100% {
+          background-position: 0 0, 10px 10px, 20px 20px;
+        }
+      }

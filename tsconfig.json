@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+
+    "baseUrl": ".",
+    "noImplicitAny": false,
+    "strict": false,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@views/*": [
+        "src/views/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@router/*": [
+        "src/router/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@constant/*": [
+        "src/constant/*"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@types/*": [
+        "src/types/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.vue"
+  ],
+  "exclude": ["node_modules"]
+}
