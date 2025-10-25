@@ -81,6 +81,12 @@ const routers: RouteRecordRaw[] = [
         },
       },
       {
+        path: "prescriptions",
+        name: "Prescriptions",
+        component: () =>
+          import("../views/dashboard/medical/PrescriptionComposer.vue"),
+      },
+      {
         path: "ads/create",
         name: "AdCreate",
         component: () =>
