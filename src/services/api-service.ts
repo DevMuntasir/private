@@ -1,6 +1,12 @@
 import { appConfig } from "@/config/app.config";
 import { LOGIN, LOGOUT } from "@/constant";
-import { buildQueryKey, getUrlPrefixes, queryClient } from "@/lib/vue-query";
+import {
+  buildQueryKey,
+  getUrlPrefixes,
+  paramsSubsetMatch,
+  queryClient,
+  splitUrlAndParams,
+} from "@/lib/vue-query";
 import { ApiResponse } from "@/types/common";
 import axios, {
   AxiosError,
@@ -76,13 +82,19 @@ class ApiService {
   }
 
   private async invalidateRelatedQueries(url: string, extras: string[] = []) {
-    const targets = new Set<string>();
-    getUrlPrefixes(url).forEach((key) => targets.add(key));
-    extras.forEach((extraUrl) => {
-      getUrlPrefixes(extraUrl).forEach((key) => targets.add(key));
+    const rawTargets = [url, ...extras];
+
+    const targets = rawTargets.flatMap((targetUrl) => {
+      const { path, params } = splitUrlAndParams(targetUrl);
+      const prefixes = getUrlPrefixes(path);
+
+      return prefixes.map((prefix) => ({
+        path: prefix,
+        params: prefix === path ? params : undefined,
+      }));
     });
 
-    if (targets.size === 0) {
+    if (targets.length === 0) {
       return;
     }
 
@@ -92,22 +104,34 @@ class ApiService {
           return false;
         }
 
-        const [firstKey] = queryKey;
+        const [firstKey, params] = queryKey;
+
         if (typeof firstKey !== "string") {
           return false;
         }
 
-        for (const target of targets) {
+        return targets.some((target) => {
           if (
-            firstKey === target ||
-            firstKey.startsWith(`${target}/`) ||
-            target.startsWith(`${firstKey}/`)
+            firstKey === target.path ||
+            firstKey.startsWith(`${target.path}/`) ||
+            target.path.startsWith(`${firstKey}/`)
           ) {
-            return true;
-          }
-        }
+            if (!target.params) {
+              return true;
+            }
 
-        return false;
+            if (!params || typeof params !== "object") {
+              return false;
+            }
+
+            return paramsSubsetMatch(
+              params as Record<string, unknown>,
+              target.params
+            );
+          }
+
+          return false;
+        });
       },
     });
   }
@@ -123,8 +147,7 @@ class ApiService {
       return response.data;
     }
 
-    const paramsKey = axiosConfig.params as Record<string, unknown> | undefined;
-    const queryKey = buildQueryKey(url, paramsKey);
+    const queryKey = buildQueryKey(url, axiosConfig.params);
 
     return queryClient.fetchQuery({
       queryKey,
